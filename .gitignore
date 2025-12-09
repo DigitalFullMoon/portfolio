@@ -1,0 +1,95 @@
+# ======================================
+# FICHIERS SECRETS ET SENSIBLES
+# ======================================
+.env
+*.env
+!.env.example
+
+
+# ======================================
+# PYTHON
+# ======================================
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Cache pip
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+ENV/
+env/
+.venv
+
+
+# ======================================
+# FLASK
+# ======================================
+instance/
+.webassets-cache
+
+
+# ======================================
+# BASE DE DONNÉES
+# ======================================
+*.db
+*.sqlite
+*.sqlite3
+
+
+# ======================================
+# DOCKER
+# ======================================
+# Pas besoin d'ignorer docker-compose ou Dockerfile
+
+
+# ======================================
+# IDE (Visual Studio Code)
+# ======================================
+.vscode/
+*.code-workspace
+
+
+# ======================================
+# SYSTÈME
+# ======================================
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# MacOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Logs
+*.log
+logs/
+
+
+# ======================================
+# UPLOADS ET FICHIERS TEMPORAIRES
+# ======================================
+app/static/uploads/
+temp/
+tmp/

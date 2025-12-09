@@ -1,0 +1,131 @@
+# ======================================
+# VERSION DE DOCKER COMPOSE
+# ======================================
+version: '3.8'
+
+# ======================================
+# DÉFINITION DES SERVICES (containers)
+# ======================================
+services:
+  
+  # =====================================
+  # SERVICE 1 : BASE DE DONNÉES MYSQL
+  # =====================================
+  db:
+    # Image MySQL officielle version 8.0
+    image: mysql:8.0
+    
+    # Nom du container (pratique pour les logs)
+    container_name: portfolio_mysql
+    
+    # Redémarrage automatique si le container plante
+    restart: always
+    
+    # Variables d'environnement depuis le fichier .env
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    
+    # Port mapping : ton_pc:container
+    # Tu pourras accéder à MySQL depuis phpMyAdmin sur localhost:3307
+    # Pourquoi 3307 et pas 3306 ? Car WAMP utilise déjà 3306 !
+    ports:
+      - "3307:3306"
+    
+    # Volume pour persister les données
+    # Même si tu supprimes le container, tes données restent !
+    volumes:
+      - mysql_data:/var/lib/mysql
+      # Script d'initialisation de la BDD (on le créera après)
+      - ./docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    
+    # Réseau pour que Flask et MySQL communiquent
+    networks:
+      - portfolio_network
+    
+    # Health check : Docker vérifie que MySQL est vraiment prêt
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+
+  # =====================================
+  # SERVICE 2 : APPLICATION FLASK
+  # =====================================
+  web:
+    # Construire l'image depuis le Dockerfile du dossier actuel
+    build: .
+    
+    container_name: portfolio_flask
+    
+    restart: always
+    
+    environment:
+      FLASK_APP: run.py
+      FLASK_ENV: ${FLASK_ENV}
+      FLASK_DEBUG: ${FLASK_DEBUG}
+      SECRET_KEY: ${SECRET_KEY}
+      DATABASE_URL: ${DATABASE_URL}
+      BREVO_API_KEY: ${BREVO_API_KEY}
+      BREVO_LIST_ID: ${BREVO_LIST_ID}
+      RECAPTCHA_SITE_KEY: ${RECAPTCHA_SITE_KEY}
+      RECAPTCHA_SECRET_KEY: ${RECAPTCHA_SECRET_KEY}
+    
+    ports:
+      - "5000:5000"
+    
+    volumes:
+      - .:/app
+      - /app/__pycache__
+    
+    depends_on:
+      db:
+        condition: service_healthy
+    
+    networks:
+      - portfolio_network
+
+
+  # =====================================
+  # SERVICE 3 : PHPMYADMIN
+  # =====================================
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    
+    container_name: portfolio_phpmyadmin
+    
+    restart: always
+    
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    
+    ports:
+      - "8080:80"
+    
+    depends_on:
+      - db
+    
+    networks:
+      - portfolio_network
+
+
+# ======================================
+# VOLUMES PERSISTANTS
+# ======================================
+volumes:
+  mysql_data:
+    driver: local
+
+
+# ======================================
+# RÉSEAUX
+# ======================================
+networks:
+  portfolio_network:
+    driver: bridge

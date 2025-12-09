@@ -1,0 +1,68 @@
+# ======================================
+# FRAMEWORK FLASK
+# ======================================
+Flask==3.0.0
+Werkzeug==3.0.1
+
+
+# ======================================
+# BASE DE DONNÉES
+# ======================================
+# ORM pour gérer MySQL de façon pythonique
+Flask-SQLAlchemy==3.1.1
+
+# Gestion des migrations de BDD (comme des "versions" de ta BDD)
+Flask-Migrate==4.0.5
+
+# Driver MySQL pour Python
+PyMySQL==1.1.0
+
+# Gestion des pools de connexions MySQL
+cryptography==41.0.7
+
+
+# ======================================
+# AUTHENTIFICATION & SÉCURITÉ
+# ======================================
+# Gestion des sessions utilisateurs connectés
+Flask-Login==0.6.3
+
+# Hash des mots de passe avec bcrypt (très sécurisé)
+Flask-Bcrypt==1.0.1
+
+# Validation des emails
+email-validator==2.1.0
+
+
+# ======================================
+# FORMULAIRES
+# ======================================
+# Formulaires Flask avec protection CSRF automatique
+Flask-WTF==1.2.1
+
+# Librairie de création de formulaires
+WTForms==3.1.1
+
+
+# ======================================
+# API EXTERNES
+# ======================================
+# Pour faire des requêtes HTTP (Brevo, reCAPTCHA)
+requests==2.31.0
+
+
+# ======================================
+# VARIABLES D'ENVIRONNEMENT
+# ======================================
+# Lecture du fichier .env
+python-dotenv==1.0.0
+
+
+# ======================================
+# UTILITAIRES
+# ======================================
+# Manipulation d'images (redimensionner, crop, etc.)
+Pillow==10.1.0
+
+# Création de slugs pour les URLs (ex: "Mon Article" → "mon-article")
+python-slugify==8.0.1
