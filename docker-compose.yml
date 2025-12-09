@@ -15,7 +15,7 @@ services:
     # Image MySQL officielle version 8.0
     image: mysql:8.0
     
-    # Nom du container (pratique pour les logs)
+    # Nom du container
     container_name: portfolio_mysql
     
     # Redémarrage automatique si le container plante

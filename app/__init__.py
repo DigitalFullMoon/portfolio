@@ -2,7 +2,6 @@
 # INITIALISATION TEMPORAIRE DE FLASK
 # ======================================
 # Fichier minimal pour tester Docker
-# On le complétera à l'étape 1B
 
 from flask import Flask
 

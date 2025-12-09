@@ -11,7 +11,7 @@ Werkzeug==3.0.1
 # ORM pour gérer MySQL de façon pythonique
 Flask-SQLAlchemy==3.1.1
 
-# Gestion des migrations de BDD (comme des "versions" de ta BDD)
+# Gestion des migrations de BDD
 Flask-Migrate==4.0.5
 
 # Driver MySQL pour Python
@@ -27,7 +27,7 @@ cryptography==41.0.7
 # Gestion des sessions utilisateurs connectés
 Flask-Login==0.6.3
 
-# Hash des mots de passe avec bcrypt (très sécurisé)
+# Hash des mots de passe avec bcrypt
 Flask-Bcrypt==1.0.1
 
 # Validation des emails

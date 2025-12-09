@@ -13,4 +13,3 @@ SELECT 'Base de données portfolio_db initialisée avec succès !' AS message;
 
 -- Note : Les tables seront créées automatiquement par Flask-Migrate
 -- Ce fichier est juste pour s'assurer que la BDD est bien créée
--- Tu pourras ajouter des données de test ici plus tard si tu veux

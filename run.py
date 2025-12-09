@@ -3,11 +3,11 @@
 # ======================================
 # Ce fichier démarre l'application Flask
 
-# Import de l'application (on la créera dans app/__init__.py)
+# Import de l'application (dans app/__init__.py)
 from app import create_app
 
 # Création de l'instance de l'application
-# create_app() est une "factory function" (on verra ça après)
+# create_app() est une "factory function"
 app = create_app()
 
 # ======================================

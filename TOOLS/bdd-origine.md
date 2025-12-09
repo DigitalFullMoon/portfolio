@@ -1,3 +1,6 @@
+PhpMyAdmin http://localhost:8080/
+App http://localhost:5000/
+
 User
 ├── id
 ├── username
