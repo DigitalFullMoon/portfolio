@@ -1,0 +1,156 @@
+/* ======================================
+   DARK MODE - VARIABLES
+   ====================================== */
+
+body.dark-mode {
+    /* Couleurs principales - Mode sombre */
+    --primary-color: #3b82f6;
+    --primary-hover: #2563eb;
+    --secondary-color: #10b981;
+    --accent-color: #f59e0b;
+    
+    /* Texte */
+    --text-primary: #f9fafb;
+    --text-secondary: #d1d5db;
+    --text-light: #9ca3af;
+    
+    /* Backgrounds */
+    --bg-primary: #111827;
+    --bg-secondary: #1f2937;
+    --bg-tertiary: #374151;
+    --bg-card: #1f2937;
+    
+    /* Borders & Shadows */
+    --border-color: #374151;
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.6);
+}
+
+/* ======================================
+   NAVBAR - DARK MODE
+   ====================================== */
+body.dark-mode .navbar {
+    background-color: rgba(17, 24, 39, 0.95);
+    border-bottom-color: var(--border-color);
+}
+
+body.dark-mode .navbar-mobile {
+    background-color: var(--bg-primary);
+}
+
+body.dark-mode .navbar-burger span {
+    background-color: var(--text-primary);
+}
+
+/* ======================================
+   HERO - DARK MODE
+   ====================================== */
+body.dark-mode .hero {
+    background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+}
+
+body.dark-mode .hero::before {
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 70%);
+}
+
+body.dark-mode .hero::after {
+    background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, transparent 70%);
+}
+
+/* ======================================
+   BUTTONS - DARK MODE
+   ====================================== */
+body.dark-mode .btn-secondary {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+body.dark-mode .btn-secondary:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+/* ======================================
+   PROJECTS - DARK MODE
+   ====================================== */
+body.dark-mode .project-card {
+    background-color: var(--bg-card);
+    border-color: var(--border-color);
+}
+
+body.dark-mode .project-image {
+    background-color: var(--bg-tertiary);
+}
+
+body.dark-mode .tech-tag {
+    background: linear-gradient(135deg, var(--bg-tertiary) 0%, var(--bg-secondary) 100%);
+    border-color: var(--border-color);
+}
+
+body.dark-mode .tech-tag:hover {
+    border-color: var(--primary-color);
+}
+
+body.dark-mode .project-link {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+body.dark-mode .project-link:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+/* ======================================
+   FORMULAIRES - DARK MODE
+   ====================================== */
+body.dark-mode .newsletter-form input {
+    background-color: var(--bg-tertiary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+
+body.dark-mode .newsletter-form input::placeholder {
+    color: var(--text-light);
+}
+
+body.dark-mode .newsletter-form input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+/* ======================================
+   SCROLLBAR - DARK MODE
+   ====================================== */
+body.dark-mode::-webkit-scrollbar {
+    width: 12px;
+}
+
+body.dark-mode::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+}
+
+body.dark-mode::-webkit-scrollbar-thumb {
+    background: var(--bg-tertiary);
+    border-radius: 6px;
+}
+
+body.dark-mode::-webkit-scrollbar-thumb:hover {
+    background: var(--border-color);
+}
+
+/* ======================================
+   TRANSITIONS SMOOTH
+   ====================================== */
+body.dark-mode,
+body.dark-mode .navbar,
+body.dark-mode .project-card,
+body.dark-mode .tech-tag,
+body.dark-mode .btn,
+body.dark-mode input {
+    transition: background-color 300ms ease, 
+                color 300ms ease, 
+                border-color 300ms ease;
+}

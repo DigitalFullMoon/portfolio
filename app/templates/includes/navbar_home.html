@@ -1,0 +1,55 @@
+<nav class="navbar navbar-home">
+    <div class="navbar-container">
+        <!-- Logo -->
+        <div class="navbar-brand">
+            <a href="{{ url_for('main.index') }}">Portfolio</a>
+        </div>
+        
+        <!-- Menu Desktop -->
+        <ul class="navbar-menu">
+            <li><a href="#about">À propos</a></li>
+            <li><a href="#projects">Projets</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="{{ url_for('blog.index') }}">Blog</a></li>
+            {% if current_user.is_authenticated %}
+                {% if current_user.is_admin() %}
+                    <li><a href="{{ url_for('admin.index') }}">Admin</a></li>
+                {% endif %}
+                <li><a href="{{ url_for('auth.logout') }}">Déconnexion</a></li>
+            {% else %}
+                <li><a href="{{ url_for('auth.login') }}">Connexion</a></li>
+            {% endif %}
+        </ul>
+        
+        <!-- Toggle Dark Mode -->
+        <button class="dark-mode-toggle" id="darkModeToggle" aria-label="Activer le mode sombre">
+            <span class="sun-icon">☀️</span>
+            <span class="moon-icon">🌙</span>
+        </button>
+        
+        <!-- Burger Menu (Mobile) -->
+        <button class="navbar-burger" id="navbarBurger" aria-label="Menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </div>
+    
+    <!-- Menu Mobile -->
+    <div class="navbar-mobile" id="navbarMobile">
+        <ul>
+            <li><a href="#about">À propos</a></li>
+            <li><a href="#projects">Projets</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="{{ url_for('blog.index') }}">Blog</a></li>
+            {% if current_user.is_authenticated %}
+                {% if current_user.is_admin() %}
+                    <li><a href="{{ url_for('admin.index') }}">Admin</a></li>
+                {% endif %}
+                <li><a href="{{ url_for('auth.logout') }}">Déconnexion</a></li>
+            {% else %}
+                <li><a href="{{ url_for('auth.login') }}">Connexion</a></li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>

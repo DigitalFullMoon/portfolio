@@ -1,0 +1,45 @@
+<footer class="footer">
+    <div class="footer-container">
+        <!-- Section Newsletter -->
+        <div class="footer-section footer-newsletter">
+            <h3>Newsletter</h3>
+            <p>Reste informé de mes derniers projets et articles !</p>
+            <form class="newsletter-form" method="POST" action="{{ url_for('api.newsletter_subscribe') }}">
+                <input type="email" name="email" placeholder="Ton email" required>
+                <button type="submit">S'abonner</button>
+            </form>
+        </div>
+        
+        <!-- Section Liens -->
+        <div class="footer-section footer-links">
+            <h3>Liens rapides</h3>
+            <ul>
+                <li><a href="{{ url_for('main.index') }}">Accueil</a></li>
+                <li><a href="{{ url_for('main.portfolio') }}">Projets</a></li>
+                <li><a href="{{ url_for('blog.index') }}">Blog</a></li>
+                <li><a href="{{ url_for('main.contact') }}">Contact</a></li>
+            </ul>
+        </div>
+        
+        <!-- Section Réseaux Sociaux -->
+        <div class="footer-section footer-social">
+            <h3>Suivez-moi</h3>
+            <div class="social-links">
+                <a href="https://github.com/ton-username" target="_blank" rel="noopener" aria-label="GitHub">
+                    <span>GitHub</span>
+                </a>
+                <a href="https://linkedin.com/in/ton-profil" target="_blank" rel="noopener" aria-label="LinkedIn">
+                    <span>LinkedIn</span>
+                </a>
+                <a href="mailto:contact@ton-site.com" aria-label="Email">
+                    <span>Email</span>
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Copyright -->
+    <div class="footer-bottom">
+        <p>&copy; {{ now.year if now else 2025 }} Portfolio. Tous droits réservés.</p>
+    </div>
+</footer>

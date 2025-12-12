@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Portfolio personnel - Développeur Web">
+    <title>{% block title %}Portfolio{% endblock %}</title>
+    
+    <!-- CSS Principal -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    
+    <!-- CSS Dark Mode -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dark-mode.css') }}">
+    
+    <!-- CSS supplémentaires des pages spécifiques -->
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Navbar : différente selon la page -->
+    {% block navbar %}
+        {% include 'includes/navbar_pages.html' %}
+    {% endblock %}
+    
+    <!-- Messages Flash (succès, erreurs, info) -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for category, message in messages %}
+                    <div class="flash-message flash-{{ category }}">
+                        {{ message }}
+                        <button class="flash-close" onclick="this.parentElement.remove()">&times;</button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+    
+    <!-- Contenu principal de la page -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    
+    <!-- Footer -->
+    {% include 'includes/footer.html' %}
+    
+    <!-- JavaScript Principal -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    
+    <!-- JavaScript Dark Mode -->
+    <script src="{{ url_for('static', filename='js/dark-mode.js') }}"></script>
+    
+    <!-- JavaScript supplémentaires des pages spécifiques -->
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
