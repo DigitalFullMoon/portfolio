@@ -1,0 +1,445 @@
+/* ======================================
+   PAGE CONTACT - STYLES DÉDIÉS
+   ====================================== */
+
+.contact-page {
+    min-height: 100vh;
+    padding: var(--spacing-3xl) var(--spacing-md);
+    margin-top: 70px;
+    background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+}
+
+.contact-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* ======================================
+   EN-TÊTE
+   ====================================== */
+.contact-header {
+    text-align: center;
+    margin-bottom: var(--spacing-3xl);
+}
+
+.contact-title {
+    font-size: clamp(var(--font-3xl), 5vw, var(--font-5xl));
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-md);
+}
+
+.contact-subtitle {
+    font-size: var(--font-lg);
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* ======================================
+   LAYOUT PRINCIPAL
+   ====================================== */
+.contact-content {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: var(--spacing-3xl);
+    align-items: start;
+}
+
+/* ======================================
+   INFORMATIONS DE CONTACT
+   ====================================== */
+.contact-info {
+    background-color: var(--bg-card);
+    padding: var(--spacing-xl);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--border-color);
+    position: sticky;
+    top: 100px;
+}
+
+.contact-info h2 {
+    font-size: var(--font-2xl);
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-xl);
+    padding-bottom: var(--spacing-md);
+    border-bottom: 2px solid var(--border-color);
+}
+
+.info-item {
+    display: flex;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    transition: all var(--transition-fast);
+}
+
+.info-item:hover {
+    background-color: var(--bg-secondary);
+    transform: translateX(5px);
+}
+
+.info-icon {
+    font-size: var(--font-3xl);
+    flex-shrink: 0;
+}
+
+.info-text {
+    flex: 1;
+}
+
+.info-text strong {
+    display: block;
+    color: var(--text-primary);
+    font-size: var(--font-base);
+    margin-bottom: var(--spacing-xs);
+}
+
+.info-text p,
+.info-text a {
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+.cv-link {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color var(--transition-fast);
+}
+
+.cv-link:hover {
+    color: var(--primary-hover);
+    text-decoration: underline;
+}
+
+/* ======================================
+   FORMULAIRE
+   ====================================== */
+.contact-form-wrapper {
+    background-color: var(--bg-card);
+    padding: var(--spacing-2xl);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--border-color);
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+
+.form-label {
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: var(--font-base);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+}
+
+.optional-label {
+    font-size: var(--font-sm);
+    color: var(--text-light);
+    font-weight: 400;
+}
+
+/* ======================================
+   INPUTS - AVEC VALIDATION VISUELLE
+   ====================================== */
+.form-input,
+.form-textarea {
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-md);
+    font-size: var(--font-base);
+    font-family: var(--font-sans);
+    color: var(--text-primary);
+    background-color: var(--bg-primary);
+    transition: all var(--transition-base);
+    /* Bordure ROUGE par défaut (5px) */
+    border-bottom: 5px solid #ef4444;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.form-textarea {
+    resize: vertical;
+    min-height: 150px;
+}
+
+/* Validation visuelle en temps réel */
+.form-input.valid,
+.form-textarea.valid {
+    /* Bordure VERTE quand valide */
+    border-bottom-color: var(--secondary-color);
+}
+
+.form-input.invalid,
+.form-textarea.invalid {
+    /* Bordure ROUGE quand invalide (garde le rouge par défaut) */
+    border-bottom-color: #ef4444;
+}
+
+/* ======================================
+   MESSAGES D'ERREUR
+   ====================================== */
+.form-error {
+    color: #ef4444;
+    font-size: var(--font-sm);
+    display: none;
+    margin-top: var(--spacing-xs);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    background-color: rgba(239, 68, 68, 0.1);
+    border-radius: var(--radius-sm);
+    border-left: 3px solid #ef4444;
+}
+
+.form-error.show,
+.form-error.server-error {
+    display: block;
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ======================================
+   RADIO BUTTONS
+   ====================================== */
+.form-group-radio {
+    gap: var(--spacing-sm);
+}
+
+.radio-group {
+    display: flex;
+    gap: var(--spacing-xl);
+}
+
+.radio-label {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    cursor: pointer;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--radius-md);
+    border: 2px solid var(--border-color);
+    transition: all var(--transition-fast);
+    background-color: var(--bg-primary);
+}
+
+.radio-label:hover {
+    border-color: var(--primary-color);
+    background-color: var(--bg-secondary);
+}
+
+.radio-label input[type="radio"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: var(--primary-color);
+}
+
+.radio-text {
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+/* ======================================
+   CHECKBOX
+   ====================================== */
+.form-group-checkbox {
+    margin: var(--spacing-md) 0;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    cursor: pointer;
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    background-color: var(--bg-secondary);
+    border: 2px solid transparent;
+    transition: all var(--transition-fast);
+}
+
+.checkbox-label:hover {
+    border-color: var(--primary-color);
+    background-color: var(--bg-tertiary);
+}
+
+.form-checkbox {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: var(--primary-color);
+}
+
+.checkbox-text {
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+/* ======================================
+   RECAPTCHA
+   ====================================== */
+.recaptcha-group {
+    margin: var(--spacing-xl) 0;
+}
+
+.recaptcha-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-xl);
+    border: 2px dashed var(--border-color);
+    border-radius: var(--radius-md);
+    background-color: var(--bg-secondary);
+    color: var(--text-secondary);
+    text-align: center;
+}
+
+.recaptcha-icon {
+    font-size: var(--font-3xl);
+}
+
+.recaptcha-placeholder small {
+    font-size: var(--font-xs);
+    color: var(--text-light);
+}
+
+/* ======================================
+   BOUTONS
+   ====================================== */
+.form-buttons {
+    display: flex;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-lg);
+}
+
+.btn-submit,
+.btn-cancel {
+    flex: 1;
+    padding: var(--spacing-md) var(--spacing-xl);
+    font-size: var(--font-base);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-base);
+    border: none;
+}
+
+.btn-submit {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
+    color: white;
+}
+
+.btn-submit:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-xl);
+}
+
+.btn-submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.btn-cancel {
+    background-color: transparent;
+    color: var(--text-secondary);
+    border: 2px solid var(--border-color);
+}
+
+.btn-cancel:hover {
+    background-color: var(--bg-secondary);
+    border-color: var(--text-secondary);
+}
+
+/* ======================================
+   RESPONSIVE
+   ====================================== */
+@media (max-width: 1024px) {
+    .contact-content {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-2xl);
+    }
+    
+    .contact-info {
+        position: static;
+    }
+}
+
+@media (max-width: 768px) {
+    .contact-page {
+        padding: var(--spacing-2xl) var(--spacing-sm);
+    }
+    
+    .contact-form-wrapper {
+        padding: var(--spacing-lg);
+    }
+    
+    .radio-group {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
+    
+    .form-buttons {
+        flex-direction: column;
+    }
+}
+
+/* ======================================
+   DARK MODE
+   ====================================== */
+body.dark-mode .contact-page {
+    background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+}
+
+body.dark-mode .contact-info,
+body.dark-mode .contact-form-wrapper {
+    background-color: var(--bg-card);
+    border-color: var(--border-color);
+}
+
+body.dark-mode .form-input,
+body.dark-mode .form-textarea {
+    background-color: var(--bg-tertiary);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+body.dark-mode .radio-label,
+body.dark-mode .checkbox-label {
+    background-color: var(--bg-tertiary);
+    border-color: var(--border-color);
+}
+
+body.dark-mode .recaptcha-placeholder {
+    background-color: var(--bg-tertiary);
+    border-color: var(--border-color);
+}

@@ -231,6 +231,45 @@ class Newsletter(db.Model):
     def __repr__(self):
         return f'<Newsletter {self.email}>'
 
+# ======================================
+# MODÈLE CONTACT (Messages de contact)
+# ======================================
+class Contact(db.Model):
+    """Table des messages de contact"""
+    
+    __tablename__ = 'contacts'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    
+    # Informations du contact
+    nom = db.Column(db.String(100), nullable=False)
+    prenom = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(120), nullable=False, index=True)
+    telephone = db.Column(db.String(14))  # Format: xx xx xx xx xx
+    
+    # Recrutement
+    recrutement = db.Column(db.Boolean, nullable=False, default=False)
+    
+    # Newsletter
+    newsletter_subscription = db.Column(db.Boolean, default=False)
+    
+    # Message
+    message = db.Column(db.Text, nullable=False)
+    
+    # Statut du message
+    is_read = db.Column(db.Boolean, default=False)
+    is_replied = db.Column(db.Boolean, default=False)
+    
+    # Dates
+    date_created = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+    date_read = db.Column(db.DateTime)
+    date_replied = db.Column(db.DateTime)
+    
+    # CV envoyé (si recrutement)
+    cv_sent = db.Column(db.Boolean, default=False)
+    
+    def __repr__(self):
+        return f'<Contact {self.prenom} {self.nom} - {self.email}>'
 
 # ======================================
 # LOADER POUR FLASK-LOGIN
