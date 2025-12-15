@@ -70,11 +70,6 @@
                         {{ form.nom.label(class="form-label") }}
                         {{ form.nom(class="form-input") }}
                         <div class="form-error" id="error-nom"></div>
-                        {% if form.nom.errors %}
-                            {% for error in form.nom.errors %}
-                                <div class="form-error server-error">{{ error }}</div>
-                            {% endfor %}
-                        {% endif %}
                     </div>
                     
                     <!-- Prénom -->
@@ -82,11 +77,6 @@
                         {{ form.prenom.label(class="form-label") }}
                         {{ form.prenom(class="form-input") }}
                         <div class="form-error" id="error-prenom"></div>
-                        {% if form.prenom.errors %}
-                            {% for error in form.prenom.errors %}
-                                <div class="form-error server-error">{{ error }}</div>
-                            {% endfor %}
-                        {% endif %}
                     </div>
                     
                     <!-- Email -->
@@ -94,11 +84,6 @@
                         {{ form.email.label(class="form-label") }}
                         {{ form.email(class="form-input") }}
                         <div class="form-error" id="error-email"></div>
-                        {% if form.email.errors %}
-                            {% for error in form.email.errors %}
-                                <div class="form-error server-error">{{ error }}</div>
-                            {% endfor %}
-                        {% endif %}
                     </div>
                     
                     <!-- Téléphone -->
@@ -107,11 +92,6 @@
                         <span class="optional-label">(optionnel)</span>
                         {{ form.telephone(class="form-input") }}
                         <div class="form-error" id="error-telephone"></div>
-                        {% if form.telephone.errors %}
-                            {% for error in form.telephone.errors %}
-                                <div class="form-error server-error">{{ error }}</div>
-                            {% endfor %}
-                        {% endif %}
                     </div>
                     
                     <!-- Recrutement -->
@@ -126,11 +106,6 @@
                             {% endfor %}
                         </div>
                         <div class="form-error" id="error-recrutement"></div>
-                        {% if form.recrutement.errors %}
-                            {% for error in form.recrutement.errors %}
-                                <div class="form-error server-error">{{ error }}</div>
-                            {% endfor %}
-                        {% endif %}
                     </div>
                     
                     <!-- Message -->
@@ -138,11 +113,6 @@
                         {{ form.message.label(class="form-label") }}
                         {{ form.message(class="form-textarea") }}
                         <div class="form-error" id="error-message"></div>
-                        {% if form.message.errors %}
-                            {% for error in form.message.errors %}
-                                <div class="form-error server-error">{{ error }}</div>
-                            {% endfor %}
-                        {% endif %}
                     </div>
                     
                     <!-- Newsletter -->

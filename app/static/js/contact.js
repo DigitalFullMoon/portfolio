@@ -26,13 +26,13 @@ document.addEventListener('DOMContentLoaded', function() {
     
     const validationRules = {
         nom: {
-            regex: /^[A-Za-zÀ-ÿ\-]+$/,
-            message: 'Le nom ne peut contenir que des lettres et le tiret (-)',
+            regex: /^[A-Za-zÀ-ÿ\s\-]+$/,  // Lettres, espaces, tirets, accents
+            message: 'Le nom ne peut contenir que des lettres, espaces et le tiret (-)',
             required: true
         },
         prenom: {
-            regex: /^[A-Za-zÀ-ÿ\-]{2,}$/,
-            message: 'Le prénom doit contenir au moins 2 lettres (accents et - autorisés)',
+            regex: /^[A-Za-zÀ-ÿ\s\-]{2,}$/,  // Lettres, espaces, tirets, accents, min 2 caractères
+            message: 'Le prénom doit contenir au moins 2 lettres (accents, espaces et - autorisés)',
             required: true
         },
         email: {
@@ -73,18 +73,20 @@ document.addEventListener('DOMContentLoaded', function() {
     if (nomInput) {
         nomInput.addEventListener('input', function() {
             const value = this.value;
-            const cleaned = value.replace(/[^A-Za-zÀ-ÿ\-]/g, '');
+            // Autoriser lettres, espaces, tirets et accents
+            const cleaned = value.replace(/[^A-Za-zÀ-ÿ\s\-]/g, '');
             
             // Formatage en MAJUSCULES en temps réel
             this.value = cleaned.toUpperCase();
             
             // Validation visuelle instantanée
-            const isValid = validationRules.nom.regex.test(cleaned) && cleaned.length > 0;
+            const isValid = validationRules.nom.regex.test(cleaned) && cleaned.trim().length > 0;
             updateVisualValidation(this, isValid);
         });
         
         nomInput.addEventListener('blur', function() {
-            this.value = this.value.trim().toUpperCase();
+            // Nettoyer les espaces multiples et trim
+            this.value = this.value.replace(/\s+/g, ' ').trim().toUpperCase();
             const isValid = validationRules.nom.regex.test(this.value) && this.value.length > 0;
             updateVisualValidation(this, isValid);
         });
@@ -96,7 +98,8 @@ document.addEventListener('DOMContentLoaded', function() {
     if (prenomInput) {
         prenomInput.addEventListener('input', function() {
             const value = this.value;
-            const cleaned = value.replace(/[^A-Za-zÀ-ÿ\-]/g, '');
+            // Autoriser lettres, espaces, tirets et accents
+            const cleaned = value.replace(/[^A-Za-zÀ-ÿ\s\-]/g, '');
             this.value = cleaned;
             
             // Validation visuelle instantanée
@@ -105,7 +108,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
         prenomInput.addEventListener('blur', function() {
-            // Formatage : Première lettre en majuscule après chaque tiret
+            // Formatage : Première lettre de chaque mot en majuscule
             const formatted = formatPrenom(this.value.trim());
             this.value = formatted;
             
@@ -240,18 +243,52 @@ document.addEventListener('DOMContentLoaded', function() {
     // BOUTON ANNULER
     // =====================================
     if (btnCancel) {
-        btnCancel.addEventListener('click', function() {
+        btnCancel.addEventListener('click', function(e) {
+            e.preventDefault(); // Empêcher tout comportement par défaut
+            
             if (confirm('Êtes-vous sûr de vouloir annuler ? Toutes les données seront perdues.')) {
-                form.reset();
-                submitAttempted = false;
-                
-                // Retirer toutes les validations visuelles et remettre en rouge
-                initializeFields();
-                
-                // Cacher tous les messages d'erreur
-                hideAllErrors();
+                resetForm();
             }
         });
+    }
+    
+    // =====================================
+    // FONCTION DE RESET COMPLÈTE
+    // =====================================
+    function resetForm() {
+        // Reset le formulaire
+        form.reset();
+        submitAttempted = false;
+        
+        // Retirer toutes les validations visuelles et remettre en rouge
+        const allInputs = [nomInput, prenomInput, emailInput, telephoneInput, messageInput];
+        allInputs.forEach(input => {
+            if (input) {
+                input.classList.remove('valid', 'invalid');
+                input.classList.add('invalid');
+                input.value = '';
+            }
+        });
+        
+        // Décocher les radios et remettre sur 'non'
+        recrutementInputs.forEach(input => {
+            if (input.value === 'non') {
+                input.checked = true;
+            } else {
+                input.checked = false;
+            }
+        });
+        
+        // Décocher la newsletter
+        const newsletterCheckbox = document.getElementById('newsletter');
+        if (newsletterCheckbox) {
+            newsletterCheckbox.checked = false;
+        }
+        
+        // Cacher tous les messages d'erreur
+        hideAllErrors();
+        
+        console.log('✅ Formulaire réinitialisé');
     }
     
     // =====================================
@@ -339,15 +376,33 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     /**
-     * Formate le prénom : Première-Lettre
-     * Exemple: jean-pierre → Jean-Pierre
+     * Formate le prénom : Première-Lettre de chaque mot
+     * Gère les tirets ET les espaces
+     * Exemple: jean-pierre marie → Jean-Pierre Marie
      */
     function formatPrenom(prenom) {
         if (!prenom) return '';
         
-        return prenom.split('-')
-            .map(part => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase())
-            .join('-');
+        // Nettoyer les espaces multiples
+        prenom = prenom.replace(/\s+/g, ' ').trim();
+        
+        // Split sur les espaces
+        const words = prenom.split(' ');
+        const formattedWords = [];
+        
+        for (let word of words) {
+            // Pour chaque mot, split sur les tirets
+            const parts = word.split('-');
+            // Capitalize chaque partie
+            const formattedParts = parts.map(part => 
+                part.charAt(0).toUpperCase() + part.slice(1).toLowerCase()
+            );
+            // Rejoin avec tiret
+            formattedWords.push(formattedParts.join('-'));
+        }
+        
+        // Rejoin avec espace
+        return formattedWords.join(' ');
     }
     
     /**
@@ -370,4 +425,5 @@ document.addEventListener('DOMContentLoaded', function() {
     // =====================================
     console.log('📧 Validation formulaire contact : Visuelle instantanée (rouge → vert)');
     console.log('📧 Messages d\'erreur : Uniquement à la soumission');
+    console.log('📧 Espaces autorisés dans nom et prénom');
 });

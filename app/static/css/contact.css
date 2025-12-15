@@ -431,6 +431,21 @@ body.dark-mode .form-textarea {
     background-color: var(--bg-tertiary);
     border-color: var(--border-color);
     color: var(--text-primary);
+    /* Bordure ROUGE par défaut en dark mode */
+    border-bottom: 5px solid #ef4444;
+}
+
+/* IMPORTANT : Validation visuelle en dark mode */
+body.dark-mode .form-input.valid,
+body.dark-mode .form-textarea.valid {
+    /* Bordure VERTE en dark mode */
+    border-bottom-color: #10b981;
+}
+
+body.dark-mode .form-input.invalid,
+body.dark-mode .form-textarea.invalid {
+    /* Bordure ROUGE en dark mode */
+    border-bottom-color: #ef4444;
 }
 
 body.dark-mode .radio-label,

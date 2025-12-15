@@ -16,6 +16,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_bcrypt import Bcrypt
+from flask_wtf.csrf import CSRFProtect
 from config import config
 
 
@@ -36,6 +37,9 @@ login_manager = LoginManager()
 
 # Flask-Bcrypt : hash des mots de passe
 bcrypt = Bcrypt()
+
+# CSRF Protection
+csrf = CSRFProtect()
 
 
 # ======================================
@@ -70,6 +74,7 @@ def create_app(config_name='default'):
     db.init_app(app)
     migrate.init_app(app, db)
     bcrypt.init_app(app)
+    csrf.init_app(app)
     
     # Configuration de Flask-Login
     login_manager.init_app(app)
@@ -90,9 +95,6 @@ def create_app(config_name='default'):
     - Réutilisabilité
     - Facilite le travail en équipe
     """
-    
-    # On va créer ces blueprints juste après
-    # Pour l'instant, on importe un blueprint de test
     
     # Blueprint Main (pages publiques : home, portfolio, contact)
     from app.main import bp as main_bp
@@ -158,7 +160,8 @@ def create_app(config_name='default'):
             'Post': models.Post,
             'Comment': models.Comment,
             'Project': models.Project,
-            'Newsletter': models.Newsletter
+            'Newsletter': models.Newsletter,
+            'Contact': models.Contact
         }
     
     

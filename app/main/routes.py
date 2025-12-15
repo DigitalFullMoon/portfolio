@@ -14,28 +14,40 @@ import re
 
 
 def format_nom(nom):
-    """Formate le nom en MAJUSCULES"""
-    return nom.upper().strip()
+    """
+    Formate le nom en MAJUSCULES
+    Gère les espaces multiples
+    """
+    # Nettoyer les espaces multiples
+    cleaned = ' '.join(nom.split())
+    return cleaned.upper().strip()
 
 
 def format_prenom(prenom):
     """
     Formate le prénom :
-    - Première lettre en majuscule
+    - Première lettre de chaque mot en majuscule
     - Reste en minuscule
-    - Si tiret : majuscule après le tiret aussi
-    Exemple: jean-pierre → Jean-Pierre
+    - Gère les tirets ET les espaces
+    Exemple: jean-pierre marie → Jean-Pierre Marie
     """
     prenom = prenom.strip()
     
-    # Split sur le tiret
-    parts = prenom.split('-')
+    # D'abord, split sur les espaces
+    words = prenom.split()
+    formatted_words = []
     
-    # Capitalize chaque partie
-    formatted_parts = [part.capitalize() for part in parts]
+    for word in words:
+        # Pour chaque mot, split sur les tirets
+        parts = word.split('-')
+        # Capitalize chaque partie
+        formatted_parts = [part.capitalize() for part in parts]
+        # Rejoin avec tiret
+        formatted_word = '-'.join(formatted_parts)
+        formatted_words.append(formatted_word)
     
-    # Rejoin avec tiret
-    return '-'.join(formatted_parts)
+    # Rejoin avec espace
+    return ' '.join(formatted_words)
 
 
 def format_telephone(telephone):
@@ -108,73 +120,100 @@ def contact():
     form = ContactForm()
     
     if form.validate_on_submit():
-        # ===================================
-        # FORMATAGE DES DONNÉES
-        # ===================================
-        nom_formate = format_nom(form.nom.data)
-        prenom_formate = format_prenom(form.prenom.data)
-        telephone_formate = format_telephone(form.telephone.data) if form.telephone.data else None
-        recrutement = form.recrutement.data == 'oui'
-        
-        # ===================================
-        # CRÉATION DU CONTACT EN BDD
-        # ===================================
-        contact = Contact(
-            nom=nom_formate,
-            prenom=prenom_formate,
-            email=form.email.data.lower().strip(),
-            telephone=telephone_formate,
-            recrutement=recrutement,
-            newsletter_subscription=form.newsletter.data,
-            message=form.message.data.strip()
-        )
-        
-        db.session.add(contact)
-        
-        # ===================================
-        # INSCRIPTION NEWSLETTER SI COCHÉE
-        # ===================================
-        if form.newsletter.data:
-            # Vérifier si l'email n'est pas déjà inscrit
-            existing_newsletter = Newsletter.query.filter_by(email=contact.email).first()
+        try:
+            print("✅ Formulaire validé !")  # Debug
+            # ===================================
+            # FORMATAGE DES DONNÉES
+            # ===================================
+            nom_formate = format_nom(form.nom.data)
+            prenom_formate = format_prenom(form.prenom.data)
+            telephone_formate = format_telephone(form.telephone.data) if form.telephone.data else None
+            recrutement = form.recrutement.data == 'oui'
             
-            if not existing_newsletter:
-                newsletter = Newsletter(
-                    email=contact.email,
-                    is_active=True
+            # ===================================
+            # CRÉATION DU CONTACT EN BDD
+            # ===================================
+            contact = Contact(
+                nom=nom_formate,
+                prenom=prenom_formate,
+                email=form.email.data.lower().strip(),
+                telephone=telephone_formate,
+                recrutement=recrutement,
+                newsletter_subscription=form.newsletter.data,
+                message=form.message.data.strip()
+            )
+            
+            db.session.add(contact)
+            
+            # ===================================
+            # INSCRIPTION NEWSLETTER SI COCHÉE
+            # ===================================
+            if form.newsletter.data:
+                # Vérifier si l'email n'est pas déjà inscrit
+                existing_newsletter = Newsletter.query.filter_by(email=contact.email).first()
+                
+                if not existing_newsletter:
+                    newsletter = Newsletter(
+                        email=contact.email,
+                        is_active=True
+                    )
+                    db.session.add(newsletter)
+            
+            # Sauvegarder en BDD
+            db.session.commit()
+            
+            # ===================================
+            # ENVOI EMAIL SELON LE TYPE
+            # ===================================
+            # TODO: À implémenter plus tard
+            # if recrutement:
+            #     # Envoyer email avec CV en PJ (template candidature)
+            #     send_recruitment_email(contact)
+            # else:
+            #     # Envoyer email de remerciement avec CV en PJ (template remerciement)
+            #     send_thank_you_email(contact)
+            
+            # ===================================
+            # FLASH MESSAGE DE SUCCÈS
+            # ===================================
+            if recrutement:
+                flash(
+                    f'✅ Merci {prenom_formate} ! Votre candidature a bien été envoyée. '
+                    'Vous allez recevoir un email de confirmation avec mon CV.',
+                    'success'
                 )
-                db.session.add(newsletter)
-        
-        # Sauvegarder en BDD
-        db.session.commit()
-        
-        # ===================================
-        # ENVOI EMAIL SELON LE TYPE
-        # ===================================
-        # TODO: À implémenter plus tard
-        # if recrutement:
-        #     # Envoyer email avec CV en PJ (template candidature)
-        #     send_recruitment_email(contact)
-        # else:
-        #     # Envoyer email de remerciement avec CV en PJ (template remerciement)
-        #     send_thank_you_email(contact)
-        
-        # Message de succès
-        if recrutement:
+            else:
+                flash(
+                    f'✅ Merci {prenom_formate} pour votre message ! '
+                    'Je vous répondrai dans les plus brefs délais.',
+                    'success'
+                )
+            
+            # Redirection pour éviter la resoumission du formulaire
+            # Et pour reset le formulaire
+            return redirect(url_for('main.contact'))
+            
+        except Exception as e:
+            # En cas d'erreur lors de la sauvegarde
+            db.session.rollback()
             flash(
-                f'Merci {prenom_formate} ! Votre candidature a bien été envoyée. '
-                'Vous allez recevoir un email de confirmation avec mon CV.',
-                'success'
+                '❌ Une erreur est survenue lors de l\'envoi du message. Veuillez réessayer.',
+                'error'
             )
-        else:
-            flash(
-                f'Merci {prenom_formate} pour votre message ! '
-                'Je vous répondrai dans les plus brefs délais.',
-                'success'
-            )
+            print(f"Erreur contact form: {str(e)}")
+    
+    elif request.method == 'POST':
+        # Le formulaire a été soumis mais n'est pas valide
+        print("❌ Erreurs de validation :")  # Debug
+        for field, errors in form.errors.items():
+            for error in errors:
+                print(f"  - {field}: {error}")
         
-        # Redirection pour éviter la resoumission du formulaire
-        return redirect(url_for('main.contact'))
+        # Le formulaire a été soumis mais n'est pas valide
+        flash(
+            '❌ Erreur dans le formulaire. Veuillez corriger les champs en rouge.',
+            'error'
+        )
     
     return render_template('main/contact.html', form=form)
 

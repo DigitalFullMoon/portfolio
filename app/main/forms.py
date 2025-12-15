@@ -16,37 +16,37 @@ class ContactForm(FlaskForm):
     Formulaire de contact avancé avec validation stricte
     """
     
-    # Nom (obligatoire, que des lettres et -, formaté en MAJUSCULES)
+    # Nom (obligatoire, que des lettres, espaces et -, formaté en MAJUSCULES)
     nom = StringField(
         'Nom',
         validators=[
             DataRequired(message='Le nom est requis'),
             Length(min=2, max=100, message='Le nom doit contenir entre 2 et 100 caractères'),
             Regexp(
-                r'^[A-Za-zÀ-ÿ\-]+$',
-                message='Le nom ne peut contenir que des lettres et le tiret (-)'
+                r'^[A-Za-zÀ-ÿ\s\-]+$',  # Ajout de \s pour les espaces
+                message='Le nom ne peut contenir que des lettres, espaces et le tiret (-)'
             )
         ],
         render_kw={
-            'placeholder': 'DUPONT',
+            'placeholder': 'DUPONT DE LA TOUR',
             'class': 'form-input',
             'autocomplete': 'family-name'
         }
     )
-    
-    # Prénom (obligatoire, min 2 lettres, accents autorisés, format: Première-Lettre)
+
+    # Prénom (obligatoire, min 2 lettres, espaces et accents autorisés)
     prenom = StringField(
         'Prénom',
         validators=[
             DataRequired(message='Le prénom est requis'),
             Length(min=2, max=100, message='Le prénom doit contenir au moins 2 caractères'),
             Regexp(
-                r'^[A-Za-zÀ-ÿ\-]+$',
-                message='Le prénom ne peut contenir que des lettres et le tiret (-)'
+                r'^[A-Za-zÀ-ÿ\s\-]+$',  # Ajout de \s pour les espaces
+                message='Le prénom ne peut contenir que des lettres, espaces et le tiret (-)'
             )
         ],
         render_kw={
-            'placeholder': 'Jean-Pierre',
+            'placeholder': 'Jean-Pierre Marie',
             'class': 'form-input',
             'autocomplete': 'given-name'
         }
@@ -129,26 +129,26 @@ class ContactForm(FlaskForm):
     def validate_nom(self, field):
         """
         Validation personnalisée du nom
-        - Que des lettres et tirets
+        - Que des lettres, espaces et tirets
         - Sera formaté en MAJUSCULES côté serveur
         """
-        if not re.match(r'^[A-Za-zÀ-ÿ\-]+$', field.data):
-            raise ValidationError('Le nom ne peut contenir que des lettres et le tiret (-)')
-    
-    
+        if not re.match(r'^[A-Za-zÀ-ÿ\s\-]+$', field.data):
+            raise ValidationError('Le nom ne peut contenir que des lettres, espaces et le tiret (-)')
+
+
     def validate_prenom(self, field):
         """
         Validation personnalisée du prénom
         - Min 2 lettres
-        - Accents autorisés
-        - Sera formaté avec majuscule initiale
+        - Espaces et accents autorisés
+        - Sera formaté avec majuscule initiale pour chaque mot
         """
         if len(field.data) < 2:
             raise ValidationError('Le prénom doit contenir au moins 2 caractères')
         
-        if not re.match(r'^[A-Za-zÀ-ÿ\-]+$', field.data):
-            raise ValidationError('Le prénom ne peut contenir que des lettres et le tiret (-)')
-    
+        if not re.match(r'^[A-Za-zÀ-ÿ\s\-]+$', field.data):
+            raise ValidationError('Le prénom ne peut contenir que des lettres, espaces et le tiret (-)')onError('Le prénom ne peut contenir que des lettres et le tiret (-)')
+        
     
     def validate_telephone(self, field):
         """
