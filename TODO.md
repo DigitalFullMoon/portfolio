@@ -49,3 +49,7 @@
 - [ ] Rate limiting (éviter spam)
 - [ ] Logs des envois d'emails
 - [ ] Notifications admin (nouveau contact)
+
+Pas de one page pour A propos - Projets - Contact - Blog - Connexion 
+des pages distinctes
+Ajout de Compétences - Expériences - entre  A propos et Projets

@@ -21,11 +21,7 @@ class ContactForm(FlaskForm):
         'Nom',
         validators=[
             DataRequired(message='Le nom est requis'),
-            Length(min=2, max=100, message='Le nom doit contenir entre 2 et 100 caractères'),
-            Regexp(
-                r'^[A-Za-zÀ-ÿ\s\-]+$',  # Ajout de \s pour les espaces
-                message='Le nom ne peut contenir que des lettres, espaces et le tiret (-)'
-            )
+            Length(min=2, max=100, message='Le nom doit contenir entre 2 et 100 caractères')
         ],
         render_kw={
             'placeholder': 'DUPONT DE LA TOUR',
@@ -33,17 +29,13 @@ class ContactForm(FlaskForm):
             'autocomplete': 'family-name'
         }
     )
-
+    
     # Prénom (obligatoire, min 2 lettres, espaces et accents autorisés)
     prenom = StringField(
         'Prénom',
         validators=[
             DataRequired(message='Le prénom est requis'),
-            Length(min=2, max=100, message='Le prénom doit contenir au moins 2 caractères'),
-            Regexp(
-                r'^[A-Za-zÀ-ÿ\s\-]+$',  # Ajout de \s pour les espaces
-                message='Le prénom ne peut contenir que des lettres, espaces et le tiret (-)'
-            )
+            Length(min=2, max=100, message='Le prénom doit contenir au moins 2 caractères')
         ],
         render_kw={
             'placeholder': 'Jean-Pierre Marie',
@@ -57,11 +49,7 @@ class ContactForm(FlaskForm):
         'Email',
         validators=[
             DataRequired(message='L\'email est requis'),
-            Email(message='Email invalide'),
-            Regexp(
-                r'^[a-zA-Z0-9][a-zA-Z0-9._-]*@[a-zA-Z0-9][a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
-                message='Format d\'email invalide'
-            )
+            Email(message='Email invalide')
         ],
         render_kw={
             'placeholder': 'email@example.com',
@@ -74,13 +62,7 @@ class ContactForm(FlaskForm):
     # Téléphone (optionnel, 10 chiffres)
     telephone = StringField(
         'Téléphone',
-        validators=[
-            Optional(),
-            Regexp(
-                r'^\d{10}$',
-                message='Le téléphone doit contenir exactement 10 chiffres'
-            )
-        ],
+        validators=[Optional()],
         render_kw={
             'placeholder': '06 12 34 56 78',
             'class': 'form-input',
@@ -119,48 +101,41 @@ class ContactForm(FlaskForm):
         render_kw={'class': 'form-checkbox'}
     )
     
-    # reCAPTCHA (sera activé en production)
-    # recaptcha = RecaptchaField()
-    
     # Boutons
     submit = SubmitField('Envoyer', render_kw={'class': 'btn btn-primary'})
     
     
     def validate_nom(self, field):
-        """
-        Validation personnalisée du nom
-        - Que des lettres, espaces et tirets
-        - Sera formaté en MAJUSCULES côté serveur
-        """
-        if not re.match(r'^[A-Za-zÀ-ÿ\s\-]+$', field.data):
-            raise ValidationError('Le nom ne peut contenir que des lettres, espaces et le tiret (-)')
+        """Validation personnalisée du nom"""
+        if not re.match(r'^[A-Za-zÀ-ÿ\s\-\']+$', field.data):
+            raise ValidationError('Le nom ne peut contenir que des lettres, espaces, tiret (-) et apostrophe (\')')
 
 
     def validate_prenom(self, field):
-        """
-        Validation personnalisée du prénom
-        - Min 2 lettres
-        - Espaces et accents autorisés
-        - Sera formaté avec majuscule initiale pour chaque mot
-        """
+        """Validation personnalisée du prénom"""
         if len(field.data) < 2:
             raise ValidationError('Le prénom doit contenir au moins 2 caractères')
         
-        if not re.match(r'^[A-Za-zÀ-ÿ\s\-]+$', field.data):
-            raise ValidationError('Le prénom ne peut contenir que des lettres, espaces et le tiret (-)')onError('Le prénom ne peut contenir que des lettres et le tiret (-)')
-        
+        if not re.match(r'^[A-Za-zÀ-ÿ\s\-\']+$', field.data):
+            raise ValidationError('Le prénom ne peut contenir que des lettres, espaces, tiret (-) et apostrophe (\')')
+    
     
     def validate_telephone(self, field):
         """
         Validation personnalisée du téléphone
-        - Optionnel, mais si rempli : exactement 10 chiffres
+        Nettoie automatiquement les espaces et caractères non-numériques
         """
-        if field.data:
-            # Nettoyer les espaces
-            cleaned = field.data.replace(' ', '')
+        if field.data and field.data.strip():
+            # Nettoyer : garder uniquement les chiffres
+            cleaned = ''.join(c for c in field.data if c.isdigit())
             
-            if not re.match(r'^\d{10}$', cleaned):
+            # Vérifier la longueur
+            if len(cleaned) > 0 and len(cleaned) != 10:
                 raise ValidationError('Le téléphone doit contenir exactement 10 chiffres')
+            
+            # Mettre à jour avec la valeur nettoyée
+            if len(cleaned) == 10:
+                field.data = cleaned
 
 
 class NewsletterForm(FlaskForm):
