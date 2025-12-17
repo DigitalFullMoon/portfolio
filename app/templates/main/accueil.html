@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %}Accueil - Portfolio{% endblock %}
+
+{% block content %}
+<section class="accueil-page">
+    <div class="container">
+        
+        <!-- Hero Section -->
+        <div class="hero-accueil">
+            <div class="hero-content-accueil">
+                <h1 class="accueil-title">À propos de moi</h1>
+                <p class="accueil-lead">
+                    Développeur passionné par les technologies web modernes
+                </p>
+            </div>
+            <div class="hero-image">
+                <!-- Photo de profil ou illustration -->
+                <div class="profile-placeholder">
+                    <span>👨‍💻</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Section À propos -->
+        <div class="about-section">
+            <h2>Qui suis-je ?</h2>
+            <p>
+                Passionné par le développement web, je crée des applications modernes, 
+                performantes et responsive. Spécialisé en Python/Flask et JavaScript, 
+                j'aime relever des défis techniques et apprendre constamment.
+            </p>
+            
+            <p>
+                Mon objectif est de transformer des idées en solutions digitales concrètes 
+                et innovantes. Je mets un point d'honneur à écrire du code propre, 
+                maintenable et bien documenté.
+            </p>
+        </div>
+        
+        <!-- Section Points forts -->
+        <div class="strengths-section">
+            <h2>Mes atouts</h2>
+            <div class="strengths-grid">
+                <div class="strength-card">
+                    <span class="strength-icon">💻</span>
+                    <h3>Développement Full-Stack</h3>
+                    <p>Maîtrise des technologies front-end et back-end</p>
+                </div>
+                
+                <div class="strength-card">
+                    <span class="strength-icon">🎨</span>
+                    <h3>Design Responsive</h3>
+                    <p>Création d'interfaces adaptées à tous les écrans</p>
+                </div>
+                
+                <div class="strength-card">
+                    <span class="strength-icon">⚡</span>
+                    <h3>Performance</h3>
+                    <p>Optimisation et bonnes pratiques</p>
+                </div>
+                
+                <div class="strength-card">
+                    <span class="strength-icon">🔧</span>
+                    <h3>Problem Solving</h3>
+                    <p>Résolution efficace des problèmes complexes</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- CTA Section -->
+        <div class="cta-section">
+            <h2>Travaillons ensemble</h2>
+            <p>Un projet en tête ? Discutons-en !</p>
+            <div class="cta-buttons">
+                <a href="{{ url_for('main.contact') }}" class="btn btn-primary">
+                    Me contacter
+                </a>
+                <a href="{{ url_for('main.projets') }}" class="btn btn-secondary">
+                    Voir mes projets
+                </a>
+            </div>
+        </div>
+        
+    </div>
+</section>
+{% endblock %}

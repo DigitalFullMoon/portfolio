@@ -50,6 +50,7 @@
 - [ ] Logs des envois d'emails
 - [ ] Notifications admin (nouveau contact)
 
-Pas de one page pour A propos - Projets - Contact - Blog - Connexion 
-des pages distinctes
-Ajout de Compétences - Expériences - entre  A propos et Projets
+Ajout partie cocon sémantique :
+Pas de menu nav juste le footer
+Un fil d'arianne dans le header
+L'objetif sera de rajouter du jus seo à la home page. Nous y aurons ajouté du contenu avec des mots clés pertinent que nous ferons linker à partir des pages du cocon

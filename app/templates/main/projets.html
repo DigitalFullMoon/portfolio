@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}Mes Projets - Portfolio{% endblock %}
+
+{% block content %}
+<section class="projets-page">
+    <div class="container">
+        
+        <div class="page-header">
+            <h1 class="page-title">Mes Projets</h1>
+            <p class="page-subtitle">
+                Découvrez mes réalisations et projets personnels
+            </p>
+        </div>
+        
+        {% if projects %}
+        <div class="projects-grid">
+            {% for project in projects %}
+            <div class="project-card">
+                <div class="project-image">
+                    {% if project.image_url %}
+                    <img src="{{ project.image_url }}" alt="{{ project.title }}">
+                    {% else %}
+                    <div class="project-placeholder">
+                        <span>📁</span>
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <div class="project-content">
+                    <h2 class="project-title">{{ project.title }}</h2>
+                    <p class="project-description">{{ project.description }}</p>
+                    
+                    {% if project.technologies %}
+                    <div class="project-technologies">
+                        {% for tech in project.technologies %}
+                        <span class="tech-tag">{{ tech }}</span>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    
+                    <div class="project-links">
+                        {% if project.github_url %}
+                        <a href="{{ project.github_url }}" target="_blank" class="project-link">
+                            GitHub
+                        </a>
+                        {% endif %}
+                        
+                        {% if project.demo_url %}
+                        <a href="{{ project.demo_url }}" target="_blank" class="project-link">
+                            Démo
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="no-content">
+            <p>Aucun projet pour le moment. Revenez bientôt !</p>
+        </div>
+        {% endif %}
+        
+    </div>
+</section>
+{% endblock %}

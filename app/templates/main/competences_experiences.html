@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block title %}Compétences & Expériences - Portfolio{% endblock %}
+
+{% block content %}
+<section class="competences-experiences-page">
+    <div class="container">
+        
+        <!-- Section Compétences -->
+        <section id="competences" class="section-competences">
+            <h1 class="section-title">Mes Compétences</h1>
+            
+            <!-- Compétences techniques -->
+            <div class="skills-category">
+                <h2>💻 Développement</h2>
+                <div class="skills-grid">
+                    <div class="skill-card">
+                        <h3>Python / Flask</h3>
+                        <div class="skill-bar">
+                            <div class="skill-level" style="width: 90%"></div>
+                        </div>
+                        <span class="skill-percentage">90%</span>
+                    </div>
+                    
+                    <div class="skill-card">
+                        <h3>HTML / CSS</h3>
+                        <div class="skill-bar">
+                            <div class="skill-level" style="width: 95%"></div>
+                        </div>
+                        <span class="skill-percentage">95%</span>
+                    </div>
+                    
+                    <div class="skill-card">
+                        <h3>JavaScript</h3>
+                        <div class="skill-bar">
+                            <div class="skill-level" style="width: 85%"></div>
+                        </div>
+                        <span class="skill-percentage">85%</span>
+                    </div>
+                    
+                    <div class="skill-card">
+                        <h3>SQL / MySQL</h3>
+                        <div class="skill-bar">
+                            <div class="skill-level" style="width: 80%"></div>
+                        </div>
+                        <span class="skill-percentage">80%</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Compétences outils -->
+            <div class="skills-category">
+                <h2>🛠️ Outils & Technologies</h2>
+                <div class="tools-list">
+                    <span class="tool-tag">Docker</span>
+                    <span class="tool-tag">Git / GitHub</span>
+                    <span class="tool-tag">VS Code</span>
+                    <span class="tool-tag">Postman</span>
+                    <span class="tool-tag">Linux</span>
+                    <span class="tool-tag">REST API</span>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Section Expériences -->
+        <section id="experiences" class="section-experiences">
+            <h1 class="section-title">Mon Parcours</h1>
+            
+            <div class="timeline">
+                <!-- Expérience 1 -->
+                <div class="timeline-item">
+                    <div class="timeline-date">2024 - Présent</div>
+                    <div class="timeline-content">
+                        <h3>Développeur Full-Stack</h3>
+                        <h4>Freelance</h4>
+                        <p>
+                            Développement d'applications web sur mesure pour divers clients.
+                            Spécialisation en Python/Flask et JavaScript.
+                        </p>
+                        <ul>
+                            <li>Création d'applications web complètes</li>
+                            <li>Intégration d'APIs tierces</li>
+                            <li>Optimisation des performances</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Expérience 2 -->
+                <div class="timeline-item">
+                    <div class="timeline-date">2023 - 2024</div>
+                    <div class="timeline-content">
+                        <h3>Développeur Junior</h3>
+                        <h4>Entreprise XYZ</h4>
+                        <p>
+                            Participation au développement de solutions web internes.
+                        </p>
+                        <ul>
+                            <li>Développement de fonctionnalités front-end</li>
+                            <li>Maintenance du code existant</li>
+                            <li>Tests et débogage</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Formation -->
+                <div class="timeline-item">
+                    <div class="timeline-date">2022 - 2023</div>
+                    <div class="timeline-content">
+                        <h3>Formation Développeur Web</h3>
+                        <h4>École / Bootcamp</h4>
+                        <p>
+                            Formation intensive en développement web full-stack.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+    </div>
+</section>
+{% endblock %}

@@ -69,39 +69,91 @@ def format_telephone(telephone):
     return f"{cleaned[0:2]} {cleaned[2:4]} {cleaned[4:6]} {cleaned[6:8]} {cleaned[8:10]}"
 
 
+# ======================================
+# NOUVELLES ROUTES - PAGES SÉPARÉES
+# ======================================
+
 @bp.route('/')
 @bp.route('/index')
+@bp.route('/accueil')
 def index():
     """
-    Page d'accueil
+    Page d'accueil (ex: À propos)
     
-    Route : / ou /index
-    Template : main/home.html
+    Route : /, /index, /accueil
+    Template : main/accueil.html
     """
-    # On récupère les projets mis en avant
-    featured_projects = Project.query.filter_by(
-        is_featured=True,
-        is_active=True
-    ).order_by(Project.order).limit(3).all()
-    
-    return render_template('main/home.html', projects=featured_projects)
+    return render_template('main/accueil.html')
 
 
-@bp.route('/portfolio')
-def portfolio():
+@bp.route('/competences-experiences')
+def competences_experiences():
     """
-    Page portfolio avec tous les projets
+    Page Compétences & Expériences (même page, 2 sections)
     
-    Route : /portfolio
-    Template : main/portfolio.html
+    Route : /competences-experiences
+    Template : main/competences_experiences.html
+    Accessible aussi via /competences et /experiences avec ancres
+    """
+    return render_template('main/competences_experiences.html')
+
+
+# Alias pour accéder directement aux sections avec ancres
+@bp.route('/competences')
+def competences():
+    """Redirect vers la section compétences"""
+    return redirect(url_for('main.competences_experiences') + '#competences')
+
+
+@bp.route('/experiences')
+def experiences():
+    """Redirect vers la section expériences"""
+    return redirect(url_for('main.competences_experiences') + '#experiences')
+
+
+@bp.route('/projets')
+def projets():
+    """
+    Page Projets (portfolio)
+    
+    Route : /projets
+    Template : main/projets.html
     """
     # Tous les projets actifs, triés par ordre
     projects = Project.query.filter_by(
         is_active=True
     ).order_by(Project.order).all()
     
-    return render_template('main/portfolio.html', projects=projects)
+    return render_template('main/projets.html', projects=projects)
 
+
+@bp.route('/blog')
+def blog():
+    """
+    Page Blog (liste des articles)
+    
+    Route : /blog
+    Redirige vers le blueprint blog
+    """
+    return redirect(url_for('blog.index'))
+
+
+# ======================================
+# ANCIENNES ROUTES (à supprimer après migration)
+# ======================================
+
+@bp.route('/portfolio')
+def portfolio():
+    """
+    ANCIENNE ROUTE - Redirige vers /projets
+    À garder pour compatibilité, sera supprimée plus tard
+    """
+    return redirect(url_for('main.projets'))
+
+
+# ======================================
+# ROUTE CONTACT (inchangée)
+# ======================================
 
 @bp.route('/contact', methods=['GET', 'POST'])
 def contact():
@@ -121,7 +173,6 @@ def contact():
     
     if form.validate_on_submit():
         try:
-            print("✅ Formulaire validé !")  # Debug
             # ===================================
             # FORMATAGE DES DONNÉES
             # ===================================
@@ -163,52 +214,32 @@ def contact():
             db.session.commit()
             
             # ===================================
-            # ENVOI EMAIL SELON LE TYPE
-            # ===================================
-            # TODO: À implémenter plus tard
-            # if recrutement:
-            #     # Envoyer email avec CV en PJ (template candidature)
-            #     send_recruitment_email(contact)
-            # else:
-            #     # Envoyer email de remerciement avec CV en PJ (template remerciement)
-            #     send_thank_you_email(contact)
-            
-            # ===================================
             # FLASH MESSAGE DE SUCCÈS
             # ===================================
             if recrutement:
                 flash(
-                    f'✅ Merci {prenom_formate} ! Votre candidature a bien été envoyée. '
-                    'Vous allez recevoir un email de confirmation avec mon CV.',
+                    f'✅ Merci {prenom_formate} ! Votre candidature a bien été envoyée.',
                     'success'
                 )
             else:
                 flash(
-                    f'✅ Merci {prenom_formate} pour votre message ! '
-                    'Je vous répondrai dans les plus brefs délais.',
+                    f'✅ Merci {prenom_formate} pour votre message !',
                     'success'
                 )
             
             # Redirection pour éviter la resoumission du formulaire
-            # Et pour reset le formulaire
             return redirect(url_for('main.contact'))
             
         except Exception as e:
             # En cas d'erreur lors de la sauvegarde
             db.session.rollback()
             flash(
-                '❌ Une erreur est survenue lors de l\'envoi du message. Veuillez réessayer.',
+                '❌ Une erreur est survenue lors de l\'envoi du message.',
                 'error'
             )
             print(f"Erreur contact form: {str(e)}")
     
     elif request.method == 'POST':
-        # Le formulaire a été soumis mais n'est pas valide
-        print("❌ Erreurs de validation :")  # Debug
-        for field, errors in form.errors.items():
-            for error in errors:
-                print(f"  - {field}: {error}")
-        
         # Le formulaire a été soumis mais n'est pas valide
         flash(
             '❌ Erreur dans le formulaire. Veuillez corriger les champs en rouge.',
@@ -226,8 +257,5 @@ def download_cv():
     Route : /download-cv
     """
     # TODO: À implémenter plus tard
-    # from flask import send_file
-    # return send_file('path/to/cv.pdf', as_attachment=True)
-    
     flash('Fonctionnalité en cours de développement', 'info')
     return redirect(url_for('main.index'))
